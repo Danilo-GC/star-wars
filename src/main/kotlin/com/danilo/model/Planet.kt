@@ -8,9 +8,9 @@ import javax.persistence.*
 data class Planet (
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 1,
     @Column
-    val name: String,
+    var name: String,
     @Column
     val weather: String,
     @Column

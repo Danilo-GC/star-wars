@@ -1,38 +1,41 @@
 package com.danilo.controller
 
 import com.danilo.model.Planet
-import com.danilo.repository.PlanetRepository
+import com.danilo.service.PlanetService
 import io.micronaut.http.HttpMethod
 import io.micronaut.http.annotation.*
-import java.util.*
+import javax.inject.Inject
 
 
 @Controller (value = "/planets")
-class PlanetController(private val planetRepository: PlanetRepository) {
+class PlanetController{
+
+    @Inject
+    lateinit var planetService: PlanetService
 
     @Get (value = "/{id}")
-    fun getById(id:Long): Optional<Planet> {
-        return planetRepository.findById(id)
+    fun getById(id:Long): Planet? {
+        return this.planetService.getById(id)
     }
 
     @Get
     fun getAll(): List<Planet> {
-        return planetRepository.findAll()
+        return this.planetService.getAll()
     }
 
     @Post
     fun addPlanet(@Body planet: Planet): Planet {
-        return planetRepository.save(planet)
+        return planetService.addPlanet(planet)
     }
 
     @Put (value = "/{id}")
-    fun updatePlanet(@PathVariable id: Long, planet: Planet): Planet{
-        return planetRepository.update(planet)
+    fun updatePlanet(@PathVariable id: Long,@Body planet: Planet) {
+        return planetService.updatePlanet(id,planet)
     }
 
     @Delete (value = "/{id}")
     fun deletePlanet (id: Long){
-        return planetRepository.deleteById(id)
+        return planetService.deletePlanet(id)
     }
 
 
