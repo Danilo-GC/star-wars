@@ -26,8 +26,8 @@ class PlanetController(private val planetRepository: PlanetRepository) {
     }
 
     @Put (value = "/{id}")
-    fun updatePlanet(@PathVariable id: Long, planet: Planet): Planet {
-        return planetRepository.update(updatePlanet(id,planet))
+    fun updatePlanet(@PathVariable id: Long, planet: Planet): Planet{
+        return planetRepository.update(planet)
     }
 
     @Delete (value = "/{id}")
