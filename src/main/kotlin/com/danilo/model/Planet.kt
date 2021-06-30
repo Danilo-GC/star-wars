@@ -1,7 +1,12 @@
 package com.danilo.model
 
 import io.micronaut.core.annotation.Introspected
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Column
+
 
 @Entity
 @Introspected
@@ -16,5 +21,5 @@ data class Planet (
     @Column
     val terrain: String,
     @Column
-    val hostile: Boolean,
+    val hostile: Boolean = false,
     )

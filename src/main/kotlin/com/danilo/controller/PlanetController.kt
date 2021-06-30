@@ -2,19 +2,22 @@ package com.danilo.controller
 
 import com.danilo.model.Planet
 import com.danilo.service.PlanetService
-import io.micronaut.http.HttpMethod
-import io.micronaut.http.annotation.*
-import javax.inject.Inject
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.annotation.Body
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Put
+import io.micronaut.http.annotation.PathVariable
+import io.micronaut.http.annotation.Delete
+import io.micronaut.http.annotation.Post
 
 
-@Controller (value = "/planets")
-class PlanetController{
+@Controller(value = "/planets")
+class PlanetController(private val planetService: PlanetService) {
 
-    @Inject
-    lateinit var planetService: PlanetService
 
-    @Get (value = "/{id}")
-    fun getById(id:Long): Planet? {
+    @Get(value = "/{id}")
+    fun getById(id: Long): Planet? {
         return this.planetService.getById(id)
     }
 
@@ -24,19 +27,24 @@ class PlanetController{
     }
 
     @Post
-    fun addPlanet(@Body planet: Planet): Planet {
-        return planetService.addPlanet(planet)
+    fun addPlanet(@Body planet: Planet): HttpResponse<Planet> {
+        return HttpResponse.created(planetService.addPlanet(planet))
     }
 
-    @Put (value = "/{id}")
-    fun updatePlanet(@PathVariable id: Long,@Body planet: Planet) {
-        return planetService.updatePlanet(id,planet)
+    @Put(value = "/{id}")
+    fun updatePlanet(@PathVariable id: Long, @Body planet: Planet) {
+        val newPlanet = Planet(id, planet.name, planet.weather, planet.terrain, planet.hostile)
+        planetService.updatePlanet(id, newPlanet)
     }
 
-    @Delete (value = "/{id}")
-    fun deletePlanet (id: Long){
-        return planetService.deletePlanet(id)
+    @Delete(value = "/{id}")
+    fun deletePlanet(id: Long): HttpResponse<Unit> {
+        planetService.deletePlanet(id)
+        return HttpResponse.noContent()
+
     }
 
 
-    }
+}
+
+
