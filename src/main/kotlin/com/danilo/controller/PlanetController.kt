@@ -3,6 +3,7 @@ package com.danilo.controller
 import com.danilo.model.Planet
 import com.danilo.service.PlanetService
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -17,13 +18,13 @@ class PlanetController(private val planetService: PlanetService) {
 
 
     @Get(value = "/{id}")
-    fun getById(id: Long): Planet? {
-        return this.planetService.getById(id)
+    fun getById(id: Long): HttpResponse<Planet> {
+        return HttpResponse.ok(this.planetService.getById(id))
     }
 
     @Get
-    fun getAll(): List<Planet> {
-        return this.planetService.getAll()
+    fun getAll(): HttpResponse<List<Planet>>? {
+        return HttpResponse.ok(planetService.getAll())
     }
 
     @Post
@@ -32,16 +33,16 @@ class PlanetController(private val planetService: PlanetService) {
     }
 
     @Put(value = "/{id}")
-    fun updatePlanet(@PathVariable id: Long, @Body planet: Planet) {
+    fun updatePlanet(@PathVariable id: Long, @Body planet: Planet): HttpResponse<Planet> {
         val newPlanet = Planet(id, planet.name, planet.weather, planet.terrain, planet.hostile)
-        planetService.updatePlanet(id, newPlanet)
+        planetService.updatePlanet(id,newPlanet)
+        return  HttpResponse.ok()
     }
 
     @Delete(value = "/{id}")
     fun deletePlanet(id: Long): HttpResponse<Unit> {
         planetService.deletePlanet(id)
         return HttpResponse.noContent()
-
     }
 
 
