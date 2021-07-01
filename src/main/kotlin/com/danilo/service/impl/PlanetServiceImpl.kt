@@ -20,11 +20,11 @@ class PlanetServiceImpl(private val planetRepository: PlanetRepository) : Planet
         return this.planetRepository.save(planet)
     }
 
-    override fun updatePlanet(id: Long, planet: Planet) {
+    override fun updatePlanet(id: Long, planet: Planet): Planet {
         if (!this.planetRepository.existsById(id)) {
             throw RuntimeException("Planet not found")
         }
-        this.planetRepository.update(planet)
+        return this.planetRepository.update(planet)
     }
 
     override fun deletePlanet(id: Long) {

@@ -7,7 +7,7 @@ interface PlanetService {
     fun getById(id:Long): Planet?
     fun getAll(): List<Planet>
     fun addPlanet(planet: Planet): Planet
-    fun updatePlanet(id: Long, planet: Planet)
+    fun updatePlanet(id: Long, planet: Planet): Planet
     fun deletePlanet(id: Long)
 
 

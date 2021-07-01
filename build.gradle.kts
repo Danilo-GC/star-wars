@@ -17,7 +17,7 @@ repositories {
 
 micronaut {
     runtime("netty")
-    testRuntime("kotest")
+    testRuntime("junit")
     processing {
         incremental(true)
         annotations("com.danilo.*")
@@ -38,8 +38,13 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.h2database:h2")
     implementation("io.micronaut:micronaut-validation")
-
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+
+    kaptTest ("io.micronaut:micronaut-inject-java")
+    testImplementation ("io.micronaut.test:micronaut-test-kotest:2.3.3")
+    testImplementation ("io.mockk:mockk:1.10.5")
+    testImplementation ("io.kotest:kotest-runner-junit5-jvm:4.3.0")
 
 }
 

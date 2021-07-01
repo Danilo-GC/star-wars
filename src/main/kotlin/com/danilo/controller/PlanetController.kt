@@ -3,7 +3,6 @@ package com.danilo.controller
 import com.danilo.model.Planet
 import com.danilo.service.PlanetService
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -23,7 +22,7 @@ class PlanetController(private val planetService: PlanetService) {
     }
 
     @Get
-    fun getAll(): HttpResponse<List<Planet>>? {
+    fun getAll(): HttpResponse<List<Planet>> {
         return HttpResponse.ok(planetService.getAll())
     }
 
@@ -35,8 +34,7 @@ class PlanetController(private val planetService: PlanetService) {
     @Put(value = "/{id}")
     fun updatePlanet(@PathVariable id: Long, @Body planet: Planet): HttpResponse<Planet> {
         val newPlanet = Planet(id, planet.name, planet.weather, planet.terrain, planet.hostile)
-        planetService.updatePlanet(id,newPlanet)
-        return  HttpResponse.ok()
+        return  HttpResponse.ok<Planet?>().body(planetService.updatePlanet(id,newPlanet))
     }
 
     @Delete(value = "/{id}")
