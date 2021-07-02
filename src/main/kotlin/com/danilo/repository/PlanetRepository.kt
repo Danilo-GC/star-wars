@@ -7,5 +7,4 @@ import io.micronaut.data.jpa.repository.JpaRepository
 @Repository
 interface PlanetRepository: JpaRepository <Planet, Long>  {
 
-
 }
